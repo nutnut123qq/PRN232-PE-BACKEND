@@ -1,0 +1,11 @@
+using AutoMapper;
+
+namespace Core.Application.Common.Mappings;
+
+public class MappingProfile : Profile
+{
+    public MappingProfile()
+    {
+    }
+}
+

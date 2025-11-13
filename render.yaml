@@ -1,0 +1,29 @@
+# Render Blueprint Configuration
+# File này giúp tự động tạo cả Web Service và Database trên Render
+
+services:
+  # PostgreSQL Database
+  - type: pspg
+    name: backend-db
+    databaseName: backend_db
+    plan: free  # hoặc starter/standard cho production
+    region: singapore  # hoặc region gần bạn nhất
+
+  # Web Service (Backend API)
+  - type: web
+    name: backend-api
+    env: dotnet
+    region: singapore  # Nên cùng region với database
+    plan: free  # hoặc starter/standard cho production
+    buildCommand: dotnet restore && dotnet build --configuration Release
+    startCommand: cd src/WebAPI && dotnet run --configuration Release --no-build
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: ASPNETCORE_URLS
+        value: http://0.0.0.0:$PORT
+      # Connection string sẽ được tự động link từ database service
+      # Render tự động tạo biến DATABASE_URL
+      - key: ConnectionStrings__DefaultConnection
+        sync: false  # Sẽ được set thủ công hoặc dùng DATABASE_URL
+
