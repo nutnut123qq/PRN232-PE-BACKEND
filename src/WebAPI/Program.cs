@@ -26,6 +26,18 @@ builder.Services.AddAutoMapper(Assembly.Load("Core.Application"));
 // Add FluentValidation
 builder.Services.AddValidatorsFromAssembly(Assembly.Load("Core.Application"));
 
+// Add CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -67,6 +79,9 @@ app.UseExceptionHandler(errorApp =>
 });
 
 app.UseHttpsRedirection();
+
+// Use CORS
+app.UseCors("AllowFrontend");
 
 app.UseAuthorization();
 

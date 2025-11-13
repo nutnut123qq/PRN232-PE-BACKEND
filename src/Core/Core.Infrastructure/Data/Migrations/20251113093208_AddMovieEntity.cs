@@ -28,7 +28,7 @@ namespace Core.Infrastructure.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Movies", x => x.Id);
-                    table.CheckConstraint("CK_Movies_Rating", "Rating IS NULL OR (Rating >= 1 AND Rating <= 5)");
+                    table.CheckConstraint("CK_Movies_Rating", "\"Rating\" IS NULL OR (\"Rating\" >= 1 AND \"Rating\" <= 5)");
                 });
         }
 
